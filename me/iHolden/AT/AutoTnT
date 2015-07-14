@@ -1,0 +1,40 @@
+package me.iHolden.AT;
+ 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+ 
+public class AutoTnt extends JavaPlugin implements Listener{
+ 
+        public void onEnable() {
+                getLogger().info("[AutoTnT] Enabled!");
+                Bukkit.getPluginManager().registerEvents(this, this);
+        }
+ 
+        public void onDisable() {
+                getLogger().info("[AutoTnT] Disabled!");
+ 
+        }
+ 
+        @EventHandler
+        public void onPlace(BlockPlaceEvent e)
+        {
+                Player p = e.getPlayer();
+                {
+                        Block block = e.getBlock();
+                        if(block.getType() == Material.TNT)
+                        {
+                                block.getWorld().spawn(block.getLocation(), TNTPrimed.class);
+                                block.setType(Material.AIR);
+                                p.playSound(p.getLocation(), Sound.FIRE_IGNITE, 2F, 1F);
+                        }
+                }
+        }
+}
